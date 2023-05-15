@@ -1,5 +1,4 @@
-import './assets/main.css'
-
+import './index.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Field, Form, ErrorMessage, defineRule, configure } from 'vee-validate'
@@ -15,7 +14,6 @@ Object.keys(AllRules).forEach((rule) => {
   defineRule(rule, AllRules[rule])
 })
 
-import './index.css'
 configure({
   generateMessage: localize({ zh_TW: zhTW }),
   validateOnInput: true // 輸入文字時，就立即進行驗證

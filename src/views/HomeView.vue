@@ -1,5 +1,9 @@
-<script setup></script>
+<script setup>
+import RoomCards from '@/components/RoomCards.vue'
+</script>
 
 <template>
-  <main></main>
+  <main>
+    <RoomCards />
+  </main>
 </template>

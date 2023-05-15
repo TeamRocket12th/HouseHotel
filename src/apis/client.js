@@ -1,21 +1,16 @@
 import request from './request.js'
 
 const apiGetAllRoomInfos = () => {
-  return request.get()
+  return request.get('rooms')
 }
 const apiGetRoomInfos = (id) => {
-  return request.get(`/${id}`)
+  return request.get(`room/${id}`)
 }
 const apiPostReservation = (id) => {
-  return request.post(`/${id}`)
+  return request.post(`room/${id}`)
 }
 const apiDeleteAll = () => {
-  return request.delete()
+  return request.delete('rooms')
 }
 
-export default {
-  apiGetAllRoomInfos,
-  apiGetRoomInfos,
-  apiPostReservation,
-  apiDeleteAll
-}
+export { apiGetAllRoomInfos, apiGetRoomInfos, apiPostReservation, apiDeleteAll }
