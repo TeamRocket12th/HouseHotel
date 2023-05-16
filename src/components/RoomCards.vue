@@ -27,10 +27,10 @@ onMounted(() => {
 </script>
 <template>
   <div class="flex flex-wrap">
-    <ul v-for="item in data" :key="item.id" class="list-none p-0 m-0 w-[275px]">
+    <ul v-for="item in data" :key="item.id" class="m-0 w-[275px] list-none p-0">
       <li @click="clickCards(item.id)" class="hover:bg-gray-800">
         <div class="relative z-50">
-          <img :src="item.imageUrl" alt="" class="w-full h-[275px]" />
+          <img :src="item.imageUrl" alt="" class="h-[275px] w-full" />
         </div>
         <!-- <RouterLink :to="`/reserve/${item.id}`"></RouterLink> -->
         <span>{{ item.name }}</span>
