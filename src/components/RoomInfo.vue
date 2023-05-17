@@ -1,13 +1,16 @@
 <template>
   <div class="flex flex-col justify-start text-[14px] leading-6 text-home-green-100">
     <div class="mb-[38px] flex flex-row items-center justify-between">
-      <p class="text-[30px] leading-[55px]">{{ roomService.name }}</p>
-      <p class="flex flex-row">
+      <p class="text-[30px] font-medium leading-[55px]">{{ roomService.name }}</p>
+      <p class="flex flex-wrap whitespace-nowrap">
         <span>
           {{ roomService.descriptionShort.GuestMin }}
         </span>
-        ~
-        <span> {{ roomService.descriptionShort.GuestMax }} 人</span>・
+
+        <span v-if="roomService.descriptionShort.GuestMin !== roomService.descriptionShort.GuestMax"
+          >～ {{ roomService.descriptionShort.GuestMax }}
+        </span>
+        <span> 人 ・ </span>
         <span
           >{{ roomService.descriptionShort.Bed.length }} 張
           {{ roomService.descriptionShort.Bed[0] }} Size 床 </span
@@ -15,7 +18,7 @@
         <span> {{ roomService.descriptionShort.Footage }}平方公尺 </span>
       </p>
     </div>
-    <ul class="mb-[35px]">
+    <ul class="mb-[35px] font-[300]">
       <li>
         平日（一～四） 價格：{{ roomService.normalDayPrice }} / 假日（五〜日）價格：{{
           roomService.holidayPrice
@@ -27,14 +30,13 @@
       </li>
       <li>退房時間：{{ roomService.checkInAndOut.checkOut }}</li>
     </ul>
-    <ul class="mb-[48px] list-disc">
+    <ul class="mb-[48px] font-[300]">
       <li>
-        {{ roomService.descriptionShort.Bed[0] }}僅供
-        {{ roomService.descriptionShort.GuestMax }} 位客人使用。
+        ・ {{ roomService.name }} 僅供 {{ roomService.descriptionShort.GuestMax }} 位客人使用。
       </li>
-      <li>臥室配有{{ bedToChinese }}床和私人浴室。</li>
-      <li>您需要的一切為您準備：床單和毯子，毛巾，肥皂和洗髮水，吹風機。</li>
-      <li>房間裡有AC，當然還有WiFi。</li>
+      <li>・ 臥室配有{{ bedToChinese }}床和私人浴室。</li>
+      <li>・ 您需要的一切為您準備：床單和毯子，毛巾，肥皂和洗髮水，吹風機。</li>
+      <li>・ 房間裡有AC，當然還有WiFi。</li>
     </ul>
     <ul class="grid grid-cols-6 gap-x-[36px] gap-y-[25px]">
       <li
