@@ -1,32 +1,73 @@
 <template>
-  <div class="w-[573px] h-[100vh] relative">
+  <div v-if="isFullScreen">
+    <teleport to="#app">
+      <div
+        class="absolute left-0 right-0 top-0 z-30 bg-black bg-opacity-50 backdrop-blur-lg"
+        @click="toggleFullScreen"
+      >
+        <div class="container relative mx-auto overflow-hidden">
+          <div
+            class="prevArrow absolute left-0 top-[50%] h-[57px] w-[30px] translate-y-[-50%] cursor-pointer"
+            @click.stop
+          >
+            <img src="../assets/images/albumleft.svg" alt="" />
+          </div>
+          <swiper
+            :slides-per-view="1"
+            :modules="modules"
+            loop="true"
+            :navigation="{ nextEl: '.nextArrow', prevEl: '.prevArrow', clickable: true }"
+            class="w-[50%]"
+          >
+            <swiper-slide v-for="(url, key) in props.src.imageUrl" :key="key">
+              <div class="flex h-[100vh] items-center">
+                <img :src="url" alt="" @click.stop />
+              </div>
+            </swiper-slide>
+          </swiper>
+          <div
+            class="nextArrow absolute right-0 top-[50%] h-[57px] w-[30px] translate-y-[-50%] cursor-pointer"
+            @click.stop
+          >
+            <img src="../assets/images/albumright.svg" alt="" />
+          </div>
+        </div>
+      </div>
+    </teleport>
+  </div>
+  <div class="relative h-[100vh] w-[573px] overflow-hidden">
     <swiper
       :slides-per-view="1"
-      :space-between="50"
-      @swiper="onSwiper"
-      @slideChange="onSlideChange"
       :modules="modules"
+      :loop="true"
       :pagination="{
         el: '.swiper-pagination',
-        // bulletClass: '.swiper-pagination-bullet',
-        // bulletActiveClass: '.swiper-pagination-bullet-active',
+        type: 'bullets',
         clickable: true
       }"
       :autoplay="{
-        delay: 2000
+        delay: 2000,
+        disableOnInteraction: false
       }"
+      :speed="1000"
+      class="h-full"
     >
-      <swiper-slide v-for="(url, key) in props.src.imageUrl" :key="key">
-        <img :src="url" alt="" />
+      <swiper-slide
+        v-for="(url, key) in props.src.imageUrl"
+        :key="key"
+        @click="toggleFullScreen"
+        class="h-full"
+      >
+        <img :src="url" alt="" class="h-full object-cover" />
       </swiper-slide>
       <div class="swiper-pagination"></div>
     </swiper>
-    <div class="absolute z-10 top-0 left-0 right-0 text-center">
+    <div class="absolute left-0 right-0 top-0 z-10 text-center">
       <div>$ {{ src.normalDayPrice }}</div>
       <div>$ {{ src.holidayPrice }}</div>
       <button
         type="button"
-        class="py-[8.5px] pl-[68.3px] text-xl pr-[58.6px] bg-home-green-100 text-white"
+        class="bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
       >
         Booking now
       </button>
@@ -34,13 +75,14 @@
   </div>
 </template>
 <script setup>
-import { Pagination, Autoplay } from 'swiper'
+import { ref } from 'vue'
+import { Pagination, Navigation, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 
 import 'swiper/css'
 import 'swiper/css/bundle'
 
-const modules = [Pagination, Autoplay]
+const modules = [Pagination, Navigation, Autoplay]
 
 const props = defineProps({
   src: {
@@ -48,14 +90,17 @@ const props = defineProps({
   }
 })
 
-const onSwiper = (swiper) => {
-  // console.log(swiper)
-}
-const onSlideChange = () => {
-  // console.log('slide change')
+const isFullScreen = ref(false)
+
+const toggleFullScreen = () => {
+  isFullScreen.value = isFullScreen.value ? false : true
 }
 </script>
 <style>
+.bg-liner {
+  background: transparent linear-gradient(180deg, #ffffff00 0%, #ffffff 100%) 0% 0% no-repeat
+    padding-box;
+}
 .swiper-pagination {
   display: flex;
   flex-direction: row;
@@ -63,13 +108,13 @@ const onSlideChange = () => {
   justify-content: center;
   color: #38470b;
   width: auto;
+  margin-bottom: 47px;
 }
 .swiper-pagination-bullet {
   width: 12px;
   height: 12px;
   border: 2px solid #38470b;
   background-color: transparent;
-  opacity: 0.6;
 }
 .swiper-pagination-bullet-active {
   background-color: #38470b;
