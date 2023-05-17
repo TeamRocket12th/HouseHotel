@@ -27,9 +27,14 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="flex flex-wrap">
-    <ul v-for="item in data" :key="item.id" class="m-0 w-[275px] list-none p-0">
-      <li @click="clickCards(item.id)">
+  <div class="relative flex flex-wrap">
+    <ul class="m-0 flex min-w-[550px] max-w-[825px] list-none flex-wrap p-0">
+      <li
+        @click="clickCards(item.id)"
+        v-for="item in data"
+        :key="item.id"
+        class="h-[275px] w-[275px]"
+      >
         <div
           class="group absolute h-[275px] w-[275px] cursor-pointer bg-transparent opacity-60 hover:bg-home-green-100"
         >
