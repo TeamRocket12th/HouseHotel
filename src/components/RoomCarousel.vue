@@ -6,27 +6,27 @@
         @click="toggleFullScreen"
       >
         <div class="container relative mx-auto overflow-hidden">
-          <div
-            class="prevArrow absolute left-0 top-[50%] h-[57px] w-[30px] translate-y-[-50%] cursor-pointer"
-            @click.stop
-          >
-            <img src="../assets/images/albumleft.svg" alt="" />
-          </div>
           <swiper
             :slides-per-view="1"
             :modules="modules"
+            speed="1000"
             loop="true"
             :navigation="{ nextEl: '.nextArrow', prevEl: '.prevArrow', clickable: true }"
-            class="w-[50%]"
           >
             <swiper-slide v-for="(url, key) in props.src.imageUrl" :key="key">
-              <div class="flex h-[100vh] items-center">
-                <img :src="url" alt="" @click.stop />
+              <div class="flex h-[100vh] items-center justify-center">
+                <img :src="url" alt="" class="h-[90%] w-[50%]" @click.stop />
               </div>
             </swiper-slide>
           </swiper>
           <div
-            class="nextArrow absolute right-0 top-[50%] h-[57px] w-[30px] translate-y-[-50%] cursor-pointer"
+            class="prevArrow absolute left-0 top-[50%] z-30 h-[57px] w-[30px] translate-y-[-50%] cursor-pointer"
+            @click.stop
+          >
+            <img src="../assets/images/albumleft.svg" alt="" />
+          </div>
+          <div
+            class="nextArrow absolute right-0 top-[50%] z-30 h-[57px] w-[30px] translate-y-[-50%] cursor-pointer"
             @click.stop
           >
             <img src="../assets/images/albumright.svg" alt="" />
@@ -35,7 +35,7 @@
       </div>
     </teleport>
   </div>
-  <div class="relative h-[100vh] w-[573px] overflow-hidden">
+  <div class="relative h-[100vh] w-[573px]">
     <swiper
       :slides-per-view="1"
       :modules="modules"
@@ -58,7 +58,7 @@
         @click="toggleFullScreen"
         class="h-full"
       >
-        <img :src="url" alt="" class="h-full object-cover" />
+        <img :src="url" alt="" class="h-full w-full object-cover" />
       </swiper-slide>
       <div class="swiper-pagination"></div>
     </swiper>
