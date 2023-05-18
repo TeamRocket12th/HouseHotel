@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col justify-start text-[14px] leading-6 text-home-green-100">
+  <div class="mb-[28px] flex flex-col justify-start text-[14px] leading-6 text-home-green-100">
     <div class="mb-[38px] flex flex-row items-center justify-between">
       <p class="text-[30px] font-medium leading-[55px]">{{ roomService.name }}</p>
       <p class="flex flex-wrap whitespace-nowrap">

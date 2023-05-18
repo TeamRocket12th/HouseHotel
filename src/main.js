@@ -3,6 +3,10 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { Field, Form, ErrorMessage, defineRule, configure } from 'vee-validate'
 
+import { setupCalendar, Calendar, DatePicker } from 'v-calendar'
+import 'v-calendar/style.css'
+
+
 import { localize, setLocale } from '@vee-validate/i18n'
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
 
@@ -28,5 +32,12 @@ app.use(router)
 app.component('VField', Field)
 app.component('VForm', Form)
 app.component('ErrorMessage', ErrorMessage)
+
+// Use plugin defaults (optional)
+app.use(setupCalendar, {})
+
+// Use the components
+app.component('VCalendar', Calendar)
+app.component('VDatePicker', DatePicker)
 
 app.mount('#app')
