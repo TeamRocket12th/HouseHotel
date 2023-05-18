@@ -1,11 +1,3 @@
-<script setup>
-import Loading from 'vue3-loading-overlay/dist/index'
-import 'vue3-loading-overlay/dist/vue3-loading-overlay.css'
-import { ref } from 'vue'
-
-const isLoading = ref(false)
-</script>
-
 <template>
   <Loading :active="isLoading">
     <div class="loadingio-spinner-ripple-wu44vrvts1">
@@ -16,6 +8,14 @@ const isLoading = ref(false)
     </div>
   </Loading>
 </template>
+
+<script setup>
+import Loading from 'vue3-loading-overlay/dist/index'
+import 'vue3-loading-overlay/dist/vue3-loading-overlay.css'
+import { ref } from 'vue'
+
+const isLoading = ref(false)
+</script>
 
 <style scope="this api replaced by slot-scope in 2.5.0+">
 @keyframes ldio-2gn8nvj94zp {

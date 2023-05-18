@@ -1,31 +1,3 @@
-<script setup>
-import { apiGetAllRoomInfos } from '@/apis/client.js'
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const data = ref([])
-
-const getRequest = async () => {
-  try {
-    const response = await apiGetAllRoomInfos()
-    data.value = response.data.items
-    console.log(response.data.items)
-    // console.log(data.value)
-  } catch (err) {
-    console.log(err)
-  }
-}
-const clickCards = (id) => {
-  router.push({ name: 'reserve', params: { id: `${id}` } })
-  console.log(id)
-}
-
-onMounted(() => {
-  getRequest()
-  console.log(data.value)
-})
-</script>
 <template>
   <div class="relative flex flex-wrap">
     <ul class="m-0 flex min-w-[550px] max-w-[825px] list-none flex-wrap p-0">
@@ -51,5 +23,32 @@ onMounted(() => {
     </ul>
   </div>
 </template>
+
+<script setup>
+import { apiGetAllRoomInfos } from '@/apis/client.js'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const data = ref([])
+const router = useRouter()
+
+onMounted(() => {
+  getRequest()
+  console.log(data.value)
+})
+
+const getRequest = async () => {
+  try {
+    const res = await apiGetAllRoomInfos()
+    data.value = res.data.items
+    // console.log(res)
+  } catch (err) {
+    // console.log(err)
+  }
+}
+const clickCards = (id) => {
+  router.push({ name: 'reserve', params: { id: `${id}` } })
+}
+</script>
 
 <style scoped></style>

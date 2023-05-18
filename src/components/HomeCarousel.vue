@@ -1,23 +1,3 @@
-<script setup>
-import { Autoplay, Pagination, Navigation, Scrollbar } from 'swiper'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { ref } from 'vue'
-
-import 'swiper/css'
-import 'swiper/css/pagination'
-import 'swiper/css/bundle'
-
-const navigation = ref({
-  nextEl: '.swiper-button-next',
-  prevEl: '.swiper-button-prev'
-})
-const modules = [Autoplay, Pagination, Navigation, Scrollbar]
-// const prevEl = () => {}
-// const nextEl = () => {}
-const onSlideChange = (swiper) => {
-  console.log(swiper.activeIndex)
-}
-</script>
 <template>
   <div class="relative">
     <div>
@@ -53,6 +33,26 @@ const onSlideChange = (swiper) => {
     </div>
   </div>
 </template>
+
+<script setup>
+import { Autoplay, Pagination, Navigation, Scrollbar } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { ref } from 'vue'
+
+import 'swiper/css'
+import 'swiper/css/pagination'
+import 'swiper/css/bundle'
+
+const navigation = ref({
+  nextEl: '.swiper-button-next',
+  prevEl: '.swiper-button-prev'
+})
+const modules = [Autoplay, Pagination, Navigation, Scrollbar]
+const onSlideChange = () => {
+  // console.log(swiper.activeIndex)
+}
+</script>
+
 <style>
 .my-pagination {
   position: absolute;

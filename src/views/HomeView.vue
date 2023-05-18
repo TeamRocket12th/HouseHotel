@@ -1,8 +1,3 @@
-<script setup>
-import RoomCards from '@/components/RoomCards.vue'
-import HomeCarousel from '@/components/HomeCarousel.vue'
-</script>
-
 <template>
   <main>
     <HomeCarousel />
@@ -22,3 +17,8 @@ import HomeCarousel from '@/components/HomeCarousel.vue'
     </div>
   </main>
 </template>
+
+<script setup>
+import RoomCards from '@/components/RoomCards.vue'
+import HomeCarousel from '@/components/HomeCarousel.vue'
+</script>
