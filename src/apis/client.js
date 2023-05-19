@@ -6,8 +6,8 @@ const apiGetAllRoomInfos = () => {
 const apiGetRoomInfos = (id) => {
   return request.get(`room/${id}`)
 }
-const apiPostReservation = (id) => {
-  return request.post(`room/${id}`)
+const apiPostReservation = (id, info) => {
+  return request.post(`room/${id}`, info)
 }
 const apiDeleteAll = () => {
   return request.delete('rooms')
