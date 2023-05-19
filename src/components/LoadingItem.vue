@@ -12,9 +12,12 @@
 <script setup>
 import Loading from 'vue3-loading-overlay/dist/index'
 import 'vue3-loading-overlay/dist/vue3-loading-overlay.css'
-import { ref } from 'vue'
 
-const isLoading = ref(false)
+defineProps({
+  isLoading: {
+    default: false
+  }
+})
 </script>
 
 <style scope="this api replaced by slot-scope in 2.5.0+">

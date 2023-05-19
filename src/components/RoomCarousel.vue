@@ -58,25 +58,36 @@
         @click="toggleFullScreen"
         class="h-full"
       >
+        <div class="mask"></div>
         <img :src="url" alt="" class="h-full w-full object-cover" />
       </swiper-slide>
       <div class="swiper-pagination"></div>
     </swiper>
-    <div class="absolute left-0 right-0 top-0 z-10 text-center">
+    <div class="pointer-events-none absolute left-0 right-0 top-0 z-10 text-center">
       <button
         type="button"
         @click="backToHome"
-        class="mb-[449px] ml-[128px] mt-[87px] flex flex-row items-center gap-[10px]"
+        class="pointer-events-auto mb-[449px] ml-[128px] mt-[87px] flex flex-row items-center gap-[10px]"
       >
         <img src="../assets/images/back home.png" alt="" /> 查看其它房型
       </button>
-      <div class="flex flex-row items-center justify-center gap-[19px] font-normal">
+      <div
+        v-if="orderDate.totalNight === 0"
+        class="flex flex-row items-center justify-center gap-[19px] font-normal"
+      >
+        <p class="text-[36px]">$ {{ src.normalDayPrice }}</p>
+        <p class="text-[20px]">/ 1 晚</p>
+      </div>
+      <div
+        v-if="orderDate.totalNight !== 0"
+        class="flex flex-row items-center justify-center gap-[19px] font-normal"
+      >
         <p class="text-[36px]">$ {{ checkWeek(src.normalDayPrice, src.holidayPrice) }}</p>
         <p class="text-[20px]">/ {{ orderDate.totalNight }}晚</p>
       </div>
       <button
         type="button"
-        class="mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
+        class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
         @click="apiDateFormat"
       >
         Booking now
@@ -116,7 +127,11 @@ const backToHome = () => {
 }
 </script>
 <style>
-.bg-liner {
+.mask {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  pointer-events: none;
   background: transparent linear-gradient(180deg, #ffffff00 0%, #ffffff 100%) 0% 0% no-repeat
     padding-box;
 }
