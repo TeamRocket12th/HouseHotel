@@ -35,7 +35,7 @@
       </div>
     </teleport>
   </div>
-  <div class="relative h-[100vh] w-[573px]">
+  <div class="relative h-[100vh] w-[573px] text-home-green-100">
     <swiper
       :slides-per-view="1"
       :modules="modules"
@@ -63,11 +63,20 @@
       <div class="swiper-pagination"></div>
     </swiper>
     <div class="absolute left-0 right-0 top-0 z-10 text-center">
-      <div>$ {{ src.normalDayPrice }}</div>
-      <div>$ {{ src.holidayPrice }}</div>
       <button
         type="button"
-        class="bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
+        @click="backToHome"
+        class="mb-[449px] ml-[128px] mt-[87px] flex flex-row items-center gap-[10px]"
+      >
+        <img src="../assets/images/back home.png" alt="" /> 查看其它房型
+      </button>
+      <div class="flex flex-row items-center justify-center gap-[19px] font-normal">
+        <p class="text-[36px]">$ {{ checkWeek(src.normalDayPrice, src.holidayPrice) }}</p>
+        <p class="text-[20px]">/ {{ orderDate.totalNight }}晚</p>
+      </div>
+      <button
+        type="button"
+        class="mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
       >
         Booking now
       </button>
@@ -76,12 +85,17 @@
 </template>
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { Pagination, Navigation, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { useOrderStore } from '@/stores/order.js'
 
 import 'swiper/css'
 import 'swiper/css/bundle'
 
+const router = useRouter()
+const orderDate = useOrderStore()
+const { checkWeek } = orderDate
 const modules = [Pagination, Navigation, Autoplay]
 
 const props = defineProps({
@@ -94,6 +108,10 @@ const isFullScreen = ref(false)
 
 const toggleFullScreen = () => {
   isFullScreen.value = isFullScreen.value ? false : true
+}
+
+const backToHome = () => {
+  router.push({ name: 'home' })
 }
 </script>
 <style>

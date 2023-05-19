@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-row justify-between">
+  <div class="flex h-[100vh] flex-row justify-between overflow-hidden">
     <RoomCarousel :src="roomInfo" />
-    <div class="flex w-[58%] flex-col items-start pl-[30px] pr-[128px] pt-[107px]">
+    <div class="flex w-[58%] flex-col items-start overflow-scroll pl-[30px] pr-[128px] pt-[107px]">
       <RoomInfo v-if="roomInfo.descriptionShort" :room-service="roomInfo" />
       <CalendarItem />
     </div>
@@ -22,7 +22,7 @@ const roomInfo = ref([])
 const getRoomInfos = async () => {
   try {
     const roomId = route.params.id
-    const res = await apiGetRoomInfos(roomId) // props: roomId
+    const res = await apiGetRoomInfos(roomId)
     roomInfo.value = res.data.room[0]
   } catch (err) {
     console.log(err)
