@@ -77,6 +77,7 @@
       <button
         type="button"
         class="mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
+        @click="apiDateFormat"
       >
         Booking now
       </button>
@@ -95,7 +96,7 @@ import 'swiper/css/bundle'
 
 const router = useRouter()
 const orderDate = useOrderStore()
-const { checkWeek } = orderDate
+const { checkWeek, apiDateFormat } = orderDate
 const modules = [Pagination, Navigation, Autoplay]
 
 const props = defineProps({

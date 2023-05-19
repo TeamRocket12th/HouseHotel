@@ -1,4 +1,4 @@
-import { ref, computed, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 import { apiPostReservation } from '@/apis/client.js'
@@ -14,7 +14,8 @@ export const useOrderStore = defineStore('order', () => {
   })
   const orderRange = ref({ start: firstDay.value, end: lastDay.value })
 
-  const changeDateFormat = (date) => {
+  const changeDateFormat = (orderDay) => {
+    const date = new Date(orderDay)
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const day = String(date.getDate()).padStart(2, '0')
@@ -23,9 +24,13 @@ export const useOrderStore = defineStore('order', () => {
   }
 
   const apiDateFormat = () => {
-    const start = changeDateFormat(orderRange.value.start)
-    const end = changeDateFormat(orderRange.value.end)
-    userInfo.date.push(start, end)
+    const pointer = new Date(orderRange.value.start)
+    userInfo.date = []
+    while (pointer <= new Date(orderRange.value.end)) {
+      let dates = changeDateFormat(pointer)
+      userInfo.date.push(dates)
+      pointer.setDate(pointer.getDate() + 1)
+    }
   }
 
   const totalNight = computed(() => {
@@ -69,6 +74,7 @@ export const useOrderStore = defineStore('order', () => {
   return {
     today,
     orderRange,
+    userInfo,
     apiDateFormat,
     totalNight,
     checkWeek,
