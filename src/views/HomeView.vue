@@ -1,9 +1,9 @@
 <template>
   <main>
     <HomeCarousel />
-    <div class="absolute top-0 z-10 pt-32">
-      <div class="flex gap-32">
-        <div class="pointer-events-none pl-[137px]">
+    <div class="absolute left-1/2 top-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2">
+      <div class="flex w-full justify-center gap-32">
+        <div class="pointer-events-none">
           <img src="@/assets/images/logo.svg" alt="" class="w-100% mb-48 max-w-none" />
           <div class="inline-block text-xs text-white">
             <p class="mb-4">好室旅店。HOUSE HOTEL</p>
@@ -12,13 +12,13 @@
             <p class="font-light">HOUSE@HOTEL.COM</p>
           </div>
         </div>
-        <RoomCards />
+        <HomeCards />
       </div>
     </div>
   </main>
 </template>
 
 <script setup>
-import RoomCards from '@/components/RoomCards.vue'
+import HomeCards from '@/components/HomeCards.vue'
 import HomeCarousel from '@/components/HomeCarousel.vue'
 </script>

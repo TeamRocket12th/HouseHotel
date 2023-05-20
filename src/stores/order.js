@@ -65,7 +65,8 @@ export const useOrderStore = defineStore('order', () => {
 
   const postReservation = async (roomId, info) => {
     try {
-      await apiPostReservation(roomId, info)
+      const res = await apiPostReservation(roomId, info)
+      console.log(res)
     } catch (err) {
       console.log(err)
     }

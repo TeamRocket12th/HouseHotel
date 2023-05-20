@@ -88,7 +88,7 @@
       <button
         type="button"
         class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
-        @click="apiDateFormat"
+        @click="bookingEvents"
       >
         Booking now
       </button>
@@ -109,12 +109,19 @@ const router = useRouter()
 const orderDate = useOrderStore()
 const { checkWeek, apiDateFormat } = orderDate
 const modules = [Pagination, Navigation, Autoplay]
-
+const emit = defineEmits(['window-event'])
+const bookingButton = (value) => {
+  emit('window-event', value)
+}
 const props = defineProps({
   src: {
     required: true
   }
 })
+const bookingEvents = () => {
+  apiDateFormat()
+  bookingButton(true)
+}
 
 const isFullScreen = ref(false)
 
@@ -142,7 +149,7 @@ const backToHome = () => {
   justify-content: center;
   color: #38470b;
   width: auto;
-  margin-bottom: 47px;
+  margin-bottom: 20px;
 }
 .swiper-pagination-bullet {
   width: 12px;

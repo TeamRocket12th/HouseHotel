@@ -10,7 +10,7 @@
         :navigation="navigation"
         :pagination="{ el: '.my-pagination', type: 'bullets', clickable: true }"
         :scrollbar="{ draggable: false }"
-        class="h-[1000px]"
+        class="h-[100vh]"
         @slideChange="onSlideChange"
       >
         <swiper-slide
@@ -27,7 +27,7 @@
         ></swiper-slide>
         <div class="my-pagination home-carousel"></div>
         <div
-          class="pointer-events-none absolute top-0 z-10 h-[1000px] w-full bg-black opacity-60"
+          class="pointer-events-none absolute top-0 z-10 h-[100vh] w-full bg-black opacity-60"
         ></div>
       </swiper>
     </div>
@@ -56,22 +56,18 @@ const onSlideChange = () => {
 <style>
 .my-pagination {
   position: absolute;
-  transform: translate(200px, -280px);
+  transform: translate(200px, -20px);
   z-index: 999;
 }
-.swiper-pagination {
-  color: white;
-}
 
-.swiper-pagination-bullet {
-  color: white;
+.my-pagination span {
+  border-color: #fff;
   width: 12px;
   height: 12px;
 }
 
-.swiper-pagination-bullet-active {
+.my-pagination span.swiper-pagination-bullet-active {
   background-color: #fff;
-  color: #fff;
   width: 12px;
   height: 12px;
 }
