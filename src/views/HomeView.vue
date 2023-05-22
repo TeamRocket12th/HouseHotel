@@ -1,7 +1,7 @@
 <template>
+  <LoadingItem :is-loading="isLoading" />
   <main>
     <HomeCarousel />
-    <LoadingItem :is-loading="isLoading" />
     <div class="absolute left-1/2 top-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2">
       <div class="flex w-full justify-center gap-32">
         <div class="pointer-events-none">
@@ -23,16 +23,4 @@
 import HomeCards from '@/components/HomeCards.vue'
 import HomeCarousel from '@/components/HomeCarousel.vue'
 import LoadingItem from '@/components/LoadingItem.vue'
-// import { ref } from 'vue'
-// import { onBeforeRouteLeave, onBeforeRouteEnter } from 'vue-router'
-
-// const isLoading = ref(false)
-
-// onBeforeRouteEnter(() => {
-//   isLoading.value = true
-// })
-
-// onBeforeRouteLeave(() => {
-//   isLoading.value = false
-// })
 </script>

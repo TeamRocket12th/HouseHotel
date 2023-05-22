@@ -1,5 +1,6 @@
 <template>
   <div class="relative flex flex-wrap">
+    <LoadingItem :is-loading="isLoading" />
     <ul class="m-0 flex min-w-[550px] max-w-[825px] list-none flex-wrap p-0">
       <li
         @click="clickCards(item.id)"
@@ -28,9 +29,11 @@
 import { apiGetAllRoomInfos } from '@/apis/client.js'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import LoadingItem from '@/components/LoadingItem.vue'
 
 const data = ref([])
 const router = useRouter()
+const isLoading = ref(false)
 
 onMounted(() => {
   getRequest()
@@ -39,8 +42,10 @@ onMounted(() => {
 
 const getRequest = async () => {
   try {
+    isLoading.value = true
     const res = await apiGetAllRoomInfos()
     data.value = res.data.items
+    isLoading.value = false
     // console.log(res)
   } catch (err) {
     // console.log(err)
