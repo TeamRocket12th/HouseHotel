@@ -1,5 +1,6 @@
 <template>
   <div v-if="isFullScreen">
+    <LoadingItem :isLoading="isLoading" />
     <teleport to="#app">
       <div
         class="absolute left-0 right-0 top-0 z-30 bg-black bg-opacity-50 backdrop-blur-lg"
@@ -58,36 +59,25 @@
         @click="toggleFullScreen"
         class="h-full"
       >
-        <div class="mask"></div>
         <img :src="url" alt="" class="h-full w-full object-cover" />
       </swiper-slide>
       <div class="swiper-pagination"></div>
     </swiper>
-    <div class="pointer-events-none absolute left-0 right-0 top-0 z-10 text-center">
+    <div class="absolute left-0 right-0 top-0 z-10 text-center">
       <button
         type="button"
         @click="backToHome"
-        class="pointer-events-auto mb-[449px] ml-[128px] mt-[87px] flex flex-row items-center gap-[10px]"
+        class="mb-[449px] ml-[128px] mt-[87px] flex flex-row items-center gap-[10px]"
       >
         <img src="../assets/images/back home.png" alt="" /> 查看其它房型
       </button>
-      <div
-        v-if="orderDate.totalNight === 0"
-        class="flex flex-row items-center justify-center gap-[19px] font-normal"
-      >
-        <p class="text-[36px]">$ {{ src.normalDayPrice }}</p>
-        <p class="text-[20px]">/ 1 晚</p>
-      </div>
-      <div
-        v-if="orderDate.totalNight !== 0"
-        class="flex flex-row items-center justify-center gap-[19px] font-normal"
-      >
+      <div class="flex flex-row items-center justify-center gap-[19px] font-normal">
         <p class="text-[36px]">$ {{ checkWeek(src.normalDayPrice, src.holidayPrice) }}</p>
         <p class="text-[20px]">/ {{ orderDate.totalNight }}晚</p>
       </div>
       <button
         type="button"
-        class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
+        class="mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
         @click="bookingEvents"
       >
         Booking now
@@ -101,6 +91,7 @@ import { useRouter } from 'vue-router'
 import { Pagination, Navigation, Autoplay } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { useOrderStore } from '@/stores/order.js'
+import LoadingItem from '@/components/LoadingItem.vue'
 
 import 'swiper/css'
 import 'swiper/css/bundle'
@@ -113,6 +104,8 @@ const emit = defineEmits(['window-event'])
 const bookingButton = (value) => {
   emit('window-event', value)
 }
+const isLoading = ref(false)
+
 const props = defineProps({
   src: {
     required: true
@@ -130,15 +123,14 @@ const toggleFullScreen = () => {
 }
 
 const backToHome = () => {
-  router.push({ name: 'home' })
+  isLoading.value = true
+  router.push({ name: 'home' }).then(() => {
+    isLoading.value = false
+  })
 }
 </script>
 <style>
-.mask {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  pointer-events: none;
+.bg-liner {
   background: transparent linear-gradient(180deg, #ffffff00 0%, #ffffff 100%) 0% 0% no-repeat
     padding-box;
 }
@@ -149,7 +141,7 @@ const backToHome = () => {
   justify-content: center;
   color: #38470b;
   width: auto;
-  margin-bottom: 20px;
+  margin-bottom: 47px;
 }
 .swiper-pagination-bullet {
   width: 12px;

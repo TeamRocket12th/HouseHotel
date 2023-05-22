@@ -11,7 +11,12 @@
     class="absolute left-1/2 top-1/2 z-20 w-full -translate-x-1/2 -translate-y-1/2 bg-transparent"
     v-show="receivedBoolean"
   >
-    <ReserveForm @window-event="handleBooleanEvent"> </ReserveForm>
+    <ReserveForm
+      @window-event="handleBooleanEvent"
+      v-if="roomInfo.descriptionShort"
+      :room-service="roomInfo"
+    >
+    </ReserveForm>
   </div>
 </template>
 <script setup>

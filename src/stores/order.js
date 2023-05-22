@@ -63,9 +63,9 @@ export const useOrderStore = defineStore('order', () => {
     orderRange.value.end = today.value
   }
 
-  const postReservation = async (roomId, info) => {
+  const postReservation = async (roomId, userInfo) => {
     try {
-      const res = await apiPostReservation(roomId, info)
+      const res = await apiPostReservation(roomId, userInfo)
       console.log(res)
     } catch (err) {
       console.log(err)
@@ -81,6 +81,7 @@ export const useOrderStore = defineStore('order', () => {
     checkWeek,
     totalPrice,
     resetOrderRange,
-    postReservation
+    postReservation,
+    changeDateFormat
   }
 })
