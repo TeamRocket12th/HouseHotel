@@ -1,9 +1,12 @@
 <template>
-  <LoadingItem :is-loading="isLoading" />
-  <main>
+  <main class="relative">
+    <LoadingItem :isLoading="isLoading" @loading-event="loadingEvent" />
     <HomeCarousel />
-    <div class="absolute left-1/2 top-1/2 z-10 w-full -translate-x-1/2 -translate-y-1/2">
-      <div class="flex w-full justify-center gap-32">
+    <div class="pointer-events-auto absolute left-0 top-0 h-full w-full"></div>
+    <div
+      class="absolute left-1/2 top-1/2 z-10 flex h-[100vh] w-full -translate-x-1/2 -translate-y-1/2 items-center"
+    >
+      <div class="z-50 flex h-full w-full items-center justify-center gap-32">
         <div class="pointer-events-none">
           <img src="@/assets/images/logo.svg" alt="" class="w-100% mb-48 max-w-none" />
           <div class="inline-block text-xs text-white">
@@ -23,4 +26,10 @@
 import HomeCards from '@/components/HomeCards.vue'
 import HomeCarousel from '@/components/HomeCarousel.vue'
 import LoadingItem from '@/components/LoadingItem.vue'
+import { ref } from 'vue'
+const isLoading = ref()
+
+const loadingEvent = (value) => {
+  isLoading.value = value
+}
 </script>

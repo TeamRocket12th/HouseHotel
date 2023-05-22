@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="pointer-events-auto h-[100vh] w-full">
     <div>
       <swiper
         :modules="modules"
@@ -26,9 +26,7 @@
           class="bg-[url('@/assets/images/house/homeCarouselFourth.jpeg')] bg-cover bg-no-repeat"
         ></swiper-slide>
         <div class="my-pagination home-carousel"></div>
-        <div
-          class="pointer-events-none absolute top-0 z-10 h-[100vh] w-full bg-black opacity-60"
-        ></div>
+        <div class="absolute top-0 z-10 h-[100vh] w-full bg-black opacity-60"></div>
       </swiper>
     </div>
   </div>
