@@ -34,10 +34,16 @@ export const useOrderStore = defineStore('order', () => {
   }
 
   const totalNight = computed(() => {
+    if (orderRange.value === null) {
+      return 1
+    }
     return (orderRange.value.end - orderRange.value.start) / (3600 * 24 * 1000)
   })
 
   const checkWeek = (normalDayPrice, holidayPrice) => {
+    if (orderRange.value === null) {
+      return normalDayPrice
+    }
     const dayOfWeek = new Date(orderRange.value.start).getDay()
     const total = dayOfWeek + totalNight.value
     let weekdays = 0
@@ -59,8 +65,7 @@ export const useOrderStore = defineStore('order', () => {
   }
 
   const resetOrderRange = () => {
-    orderRange.value.start = today.value
-    orderRange.value.end = today.value
+    orderRange.value = null
   }
 
   const postReservation = async (roomId, userInfo) => {
