@@ -1,5 +1,4 @@
 <template>
-  <LoadingItem :isLoading="isLoading" @loading-event="loadingEvent" />
   <div class="relative flex flex-wrap object-contain">
     <ul class="m-0 flex min-w-[550px] max-w-[825px] list-none flex-wrap object-contain p-0">
       <li
@@ -25,9 +24,8 @@
 
 <script setup>
 import { apiGetAllRoomInfos } from '@/apis/client.js'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import LoadingItem from '@/components/LoadingItem.vue'
 
 const data = ref([])
 const router = useRouter()
@@ -38,24 +36,27 @@ const loadingEvent = (value) => {
   emit('loading-event', value)
 }
 
-onMounted(() => {
-  getRequest()
-  console.log(data.value)
-})
-
 const getRequest = async () => {
   try {
-    loadingEvent(true)
     isLoading.value = true
     const res = await apiGetAllRoomInfos()
     data.value = res.data.items
     isLoading.value = false
     loadingEvent(false)
-    // console.log(res)
+    console.log(res)
   } catch (err) {
     // console.log(err)
   }
 }
+onMounted(() => {
+  getRequest()
+  console.log(data.value)
+})
+// 監聽 isLoading 值的變化，當變化時觸發 loadingEvent 函數
+watch(isLoading, (newValue) => {
+  loadingEvent(newValue)
+})
+
 const clickCards = (id) => {
   router.push({ name: 'reserve', params: { id: `${id}` } })
 }

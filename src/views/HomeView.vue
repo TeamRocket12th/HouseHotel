@@ -1,13 +1,16 @@
 <template>
-  <main class="relative">
+  <div>
     <LoadingItem :isLoading="isLoading" @loading-event="loadingEvent" />
+  </div>
+
+  <div class="relative">
     <HomeCarousel />
-    <div class="pointer-events-auto absolute left-0 top-0 h-full w-full"></div>
+
     <div
-      class="absolute left-1/2 top-1/2 z-10 flex h-[100vh] w-full -translate-x-1/2 -translate-y-1/2 items-center"
+      class="absolute left-1/2 top-1/2 z-10 flex h-auto w-full -translate-x-1/2 -translate-y-1/2 items-center"
     >
-      <div class="z-50 flex h-full w-full items-center justify-center gap-32">
-        <div class="pointer-events-none">
+      <div class="flex w-full items-center justify-center gap-32">
+        <div>
           <img src="@/assets/images/logo.svg" alt="" class="w-100% mb-48 max-w-none" />
           <div class="inline-block text-xs text-white">
             <p class="mb-4">好室旅店。HOUSE HOTEL</p>
@@ -16,20 +19,26 @@
             <p class="font-light">HOUSE@HOTEL.COM</p>
           </div>
         </div>
-        <HomeCards />
+        <HomeCards :isLoading="isLoading" @loading-event="handleLoadingEvent">
+          <p>Loading 狀態：{{ isLoading }}</p>
+        </HomeCards>
       </div>
     </div>
-  </main>
+  </div>
 </template>
 
 <script setup>
 import HomeCards from '@/components/HomeCards.vue'
 import HomeCarousel from '@/components/HomeCarousel.vue'
 import LoadingItem from '@/components/LoadingItem.vue'
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+
 const isLoading = ref()
 
-const loadingEvent = (value) => {
+const handleLoadingEvent = (value) => {
   isLoading.value = value
 }
+onMounted(() => {
+  console.log(isLoading.value)
+})
 </script>

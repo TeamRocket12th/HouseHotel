@@ -3,31 +3,35 @@
     <div class="w-1/3 bg-home-green-100 px-16 py-8">
       <VForm>
         <div class="mb-5">
-          <label for="name" class="mb-1 block text-white">姓名</label>
+          <div class="flex items-center gap-5">
+            <label for="name" class="mb-1 block text-white">姓名</label>
+            <ErrorMessage name="name" class="text-sm text-yellow-500" />
+          </div>
           <VField
             name="name"
             type="name"
             rules="required"
             id="name"
-            class="h-9 w-full"
+            class="h-9 w-full p-2 text-home-gray-150"
             label="姓名"
             v-model="userInfo.name"
           />
-          <ErrorMessage name="name" class="text-yellow-500" />
         </div>
 
         <div class="mb-5">
-          <label for="phone" class="mb-1 block text-white">電話</label>
+          <div class="flex items-center gap-5">
+            <label for="phone" class="mb-1 block text-white">電話</label>
+            <ErrorMessage name="phone" class="text-sm text-yellow-500" />
+          </div>
           <VField
             name="phone"
             type="text"
             id="phone"
             label="電話"
             rules="required|phoneStartingWith09|max:10"
-            class="h-9 w-full"
+            class="h-9 w-full p-2 text-home-gray-150"
             v-model="userInfo.tel"
           />
-          <ErrorMessage name="phone" class="text-yellow-500" />
         </div>
 
         <div class="mb-5">
@@ -49,7 +53,7 @@
                 <input
                   :value="userInfo.date[0]"
                   v-on="inputEvents"
-                  class="h-9 flex-grow text-home-gray-150"
+                  class="h-9 flex-grow p-2 text-home-gray-150"
                 />
                 <button
                   class="e flex items-center justify-center border-none bg-white"
@@ -84,7 +88,7 @@
                 <input
                   :value="userInfo.date[userInfo.date.length - 1]"
                   v-on="inputEvents"
-                  class="h-9 flex-grow text-home-gray-150"
+                  class="h-9 flex-grow p-2 text-home-gray-150"
                 />
                 <button
                   class="e flex items-center justify-center border-none bg-white"
@@ -100,11 +104,17 @@
           </VDatePicker>
         </div>
       </VForm>
-      <p class="mb-2 text-sm font-normal text-home-green-50">2天，1晚平日</p>
+      <p class="mb-2 text-sm font-normal text-home-green-50">
+        {{ totalNight + 1 }}天，{{ totalWeekdays }}晚平日與{{ totalWeekends }}晚假日
+      </p>
       <div class="mb-[10px] h-[1px] w-full bg-home-green-50"></div>
       <div class="mb-4 text-right text-white">
         <p>總計</p>
-        <p>$1,380</p>
+        <p>
+          ${{
+            totalWeekends * roomService.holidayPrice + totalWeekdays * roomService.normalDayPrice
+          }}
+        </p>
       </div>
       <button class="mb-[18px] w-full border py-2 text-white" @click="sendButton">確認送出</button>
       <p class="text-center text-xs text-white">此預約系統僅預約功能，並不會對您進行收費</p>
@@ -265,40 +275,63 @@ import { localize, setLocale } from '@vee-validate/i18n'
 import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
 import { storeToRefs } from 'pinia'
 import { useOrderStore } from '@/stores/order.js'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const printSelectedDate = () => {
-  console.log(orderRange.start)
-  const dateToFormat = new Date(orderRange.start)
-  const formattedDate = changeDateFormat(dateToFormat)
-  console.log(formattedDate)
-  orderRange.start = formattedDate
-  const lastToFormat = new Date(orderRange.end)
-  const lastDate = changeDateFormat(lastToFormat)
-  orderRange.end = lastDate
-  console.log(orderRange)
-  console.log(userInfo)
-  apiDateFormat()
+const apiDateFormat = () => {
+  const pointer = new Date(orderRange.start)
+  userInfo.date = []
+  while (pointer <= new Date(orderRange.end)) {
+    let dates = changeDateFormat(pointer)
+    userInfo.date.push(dates)
+    pointer.setDate(pointer.getDate() + 1)
+  }
 }
 
-const apiDateFormat = () => {
+const totalNight = computed(() => {
   const startDate = new Date(orderRange.start)
   const endDate = new Date(orderRange.end)
   const diffTime = Math.abs(endDate - startDate)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  return diffDays
+})
 
-  userInfo.date = []
+const totalWeekdaysAndWeekends = computed(() => {
+  const startDate = new Date(orderRange.start)
 
-  for (let i = 0; i <= diffDays; i++) {
+  let weekdays = 0
+  let weekends = 0
+  const dayOfWeek = new Date(orderRange.start).getDay()
+  const total = dayOfWeek + totalNight.value
+
+  for (let i = dayOfWeek; i < total; i++) {
     const currentDate = new Date(startDate)
     currentDate.setDate(startDate.getDate() + i)
-    const formattedDate = changeDateFormat(currentDate)
-    userInfo.date.push(formattedDate)
+    let pointer = i % 7
+    if (pointer === 5 || pointer === 6 || pointer === 7) {
+      weekends++
+    } else {
+      weekdays++
+    }
   }
+
+  return { weekdays, weekends }
+})
+const totalWeekdays = computed(() => totalWeekdaysAndWeekends.value.weekdays)
+const totalWeekends = computed(() => totalWeekdaysAndWeekends.value.weekends)
+
+const printSelectedDate = () => {
+  const dateToFormat = new Date(orderRange.start)
+  const formattedDate = changeDateFormat(dateToFormat)
+  orderRange.start = formattedDate
+  const lastToFormat = new Date(orderRange.end)
+  const lastDate = changeDateFormat(lastToFormat)
+  orderRange.end = lastDate
+  apiDateFormat()
 }
+
 const attribute = ref({
   highlight: {
     start: {
@@ -327,19 +360,27 @@ const attribute = ref({
     }
   }
 })
+
 onMounted(() => {
   console.log(userInfo)
   console.log(orderRange)
+  console.log(totalNight)
 })
 
 const emit = defineEmits(['window-event'])
 const cancelButton = (value) => {
   emit('window-event', value)
 }
-const sendButton = () => {
-  const roomId = route.params.id
-  const res = orderDate.postReservation(roomId, userInfo)
-  console.log(res)
+const sendButton = async () => {
+  try {
+    const roomId = route.params.id
+    const res = orderDate.postReservation(roomId, userInfo)
+    console.log(res)
+    userInfo.name = ''
+    userInfo.tel = ''
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 const orderDate = useOrderStore()
