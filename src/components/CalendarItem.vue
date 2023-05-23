@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useOrderStore } from '@/stores/order.js'
 import { useScreens } from 'vue-screen-utils'
@@ -48,9 +48,14 @@ const changeBookedDate = () => {
   })
 }
 
-onMounted(() => {
-  changeBookedDate()
-})
+watch(
+  () => props.bookedDate,
+  () => {
+    changeBookedDate()
+    console.log(props.bookedDate)
+  },
+  { immediate: true }
+)
 
 const { mapCurrent } = useScreens({
   xs: '0px',

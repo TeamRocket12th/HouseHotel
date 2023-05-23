@@ -6,7 +6,7 @@
       class="flex w-full flex-col overflow-scroll px-[40px] pt-[107px] lg:w-[58%] lg:items-start lg:pl-[30px] lg:pr-[128px]"
     >
       <RoomInfo v-if="roomInfo.descriptionShort" :room-service="roomInfo" />
-      <CalendarItem v-if="roomBooked" :booked-date="roomBooked" />
+      <CalendarItem :booked-date="roomBooked" />
     </div>
   </div>
   <div
@@ -28,7 +28,7 @@ import CalendarItem from '../components/CalendarItem.vue'
 import LoadingItem from '../components/LoadingItem.vue'
 import ReserveForm from '../components/ReserveForm.vue'
 
-import { ref, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { apiGetRoomInfos } from '@/apis/client.js'
 
@@ -56,9 +56,13 @@ const getRoomInfos = async () => {
   }
 }
 
-onMounted(() => {
-  getRoomInfos()
-})
+watch(
+  receivedBoolean,
+  () => {
+    getRoomInfos()
+  },
+  { immediate: true }
+)
 </script>
 
 <style></style>

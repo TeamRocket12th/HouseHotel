@@ -38,7 +38,7 @@ export const useOrderStore = defineStore('order', () => {
     if (orderRange.value === null) {
       return 1
     }
-    return (orderRange.value.end - orderRange.value.start) / (3600 * 24 * 1000)
+    return Math.floor((orderRange.value.end - orderRange.value.start) / (3600 * 24 * 1000))
   })
 
   const checkWeek = (normalDayPrice, holidayPrice) => {
