@@ -14,6 +14,7 @@
             id="name"
             class="h-9 w-full p-2 text-home-gray-150"
             label="姓名"
+            :initial="true"
             v-model="userInfo.name"
           />
         </div>
@@ -48,7 +49,7 @@
             expanded
             borderless
           >
-            <template #default="{ togglePopover, inputEvents }">
+            <template #default="{ inputEvents, togglePopover }">
               <div class="flex w-full overflow-hidden">
                 <input
                   :value="userInfo.date[0]"
@@ -56,7 +57,9 @@
                   class="h-9 flex-grow p-2 text-home-gray-150"
                 />
                 <button
+                  type="button"
                   class="e flex items-center justify-center border-none bg-white"
+                  @mousedown="stopPropagation"
                   @click="() => togglePopover()"
                 >
                   <span class="material-symbols-rounded border-none text-3xl text-home-green-100">
@@ -91,7 +94,9 @@
                   class="h-9 flex-grow p-2 text-home-gray-150"
                 />
                 <button
+                  type="button"
                   class="e flex items-center justify-center border-none bg-white"
+                  @mousedown="stopPropagation"
                   @click="() => togglePopover()"
                 >
                   <span class="material-symbols-rounded border-none text-3xl text-home-green-100">
@@ -110,14 +115,21 @@
       <div class="mb-[10px] h-[1px] w-full bg-home-green-50"></div>
       <div class="mb-4 text-right text-white">
         <p>總計</p>
-        <p>
+        <p class="text-[26px]">
           ${{
-            totalWeekends * roomService.holidayPrice + totalWeekdays * roomService.normalDayPrice
+            (
+              totalWeekends * roomService.holidayPrice +
+              totalWeekdays * roomService.normalDayPrice
+            ).toLocaleString()
           }}
         </p>
       </div>
-      <button class="mb-[18px] w-full border py-2 text-white" @click="sendButton">確認送出</button>
-      <p class="text-center text-xs text-white">此預約系統僅預約功能，並不會對您進行收費</p>
+      <div class="py-10">
+        <button class="mb-[18px] w-full border py-2 text-white" @click="sendButton">
+          確認送出
+        </button>
+        <p class="text-center text-xs text-white">此預約系統僅預約功能，並不會對您進行收費</p>
+      </div>
     </div>
 
     <div class="w-2/3 border border-home-green-100 bg-white pb-3 pl-8">
@@ -147,62 +159,23 @@
             roomService.holidayPrice
           }}
         </p>
-        <ul class="my-7 flex items-center gap-8 text-center">
-          <li>
-            <img
-              src="@/assets/images/amenities/icon_amenities_Breakfast.svg"
-              alt=""
-              class="h-8 w-8 pb-1"
-            />
-            <p class="text-xs text-home-green-50">早餐</p>
-          </li>
-          <li>
-            <img
-              src="../assets/images/amenities/icon_amenities_Wi-Fi.svg"
-              alt=""
-              class="h-8 w-8 pb-1"
-            />
-            <p class="text-xs text-home-green-50">Wifi</p>
-          </li>
-          <li>
-            <img
-              src="../assets/images/amenities/icon_amenities_Television.svg"
-              alt=""
-              class="h-8 w-8 pb-1"
-            />
-            <p class="text-xs text-home-green-50">電話</p>
-          </li>
-          <li>
-            <img
-              src="../assets/images/amenities/icon_amenities_Refrigerator.svg"
-              alt=""
-              class="h-8 w-8 pb-1"
-            />
-            <p class="text-xs text-home-green-50">冰箱</p>
-          </li>
-          <li>
-            <img
-              src="../assets/images/amenities/icon_amenities_Pet-Friendly.svg"
-              alt=""
-              class="h-8 w-8 pb-1"
-            />
-            <p class="text-xs text-home-green-50">攜帶寵物</p>
-          </li>
-          <li>
-            <img
-              src="../assets/images/amenities/icon_amenities_Smoke-Free.svg"
-              alt=""
-              class="h-8 w-8"
-            />
-            <p class="text-xs text-home-green-50">全面禁菸</p>
-          </li>
-          <li>
-            <img
-              src="../assets/images/amenities/icon_amenities_Air-Conditioner.svg"
-              alt=""
-              class="h-8 w-8"
-            />
-            <p class="text-xs text-home-green-50">空調</p>
+        <ul class="my-7 flex flex-wrap items-center gap-8 text-center">
+          <li
+            v-for="(item, key) in Object.entries(roomService.amenities)"
+            :key="key"
+            :class="{ ' hidden': !item[1] }"
+            class="relative flex w-16 flex-row justify-between gap-1"
+          >
+            <div class="flex w-full flex-col items-center justify-between gap-1">
+              <img
+                :src="`../src/assets/images/amenities/icon_amenities_${item[0]}.svg`"
+                alt=""
+                class="h-8 w-8"
+              />
+              <p class="whitespace-nowrap text-[10px] leading-[15px] text-home-green-50">
+                {{ item[0] }}
+              </p>
+            </div>
           </li>
         </ul>
         <div class="mb-3 flex w-full items-center gap-1">
@@ -269,26 +242,40 @@
 </template>
 
 <script setup>
-import { Field as VField, Form as VForm, ErrorMessage, defineRule, configure } from 'vee-validate'
-import AllRules from '@vee-validate/rules'
-import { localize, setLocale } from '@vee-validate/i18n'
-import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'
 import { storeToRefs } from 'pinia'
 import { useOrderStore } from '@/stores/order.js'
-import { ref, onMounted, computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-
-const apiDateFormat = () => {
-  const pointer = new Date(orderRange.start)
-  userInfo.date = []
-  while (pointer <= new Date(orderRange.end)) {
-    let dates = changeDateFormat(pointer)
-    userInfo.date.push(dates)
-    pointer.setDate(pointer.getDate() + 1)
+const attribute = ref({
+  highlight: {
+    start: {
+      style: {
+        backgroundColor: '#38470B'
+      },
+      contentStyle: {
+        color: '#ffffff'
+      }
+    },
+    base: {
+      style: {
+        backgroundColor: '#949C7C'
+      },
+      contentStyle: {
+        color: '#ffffff'
+      }
+    },
+    end: {
+      style: {
+        backgroundColor: '#38470B'
+      },
+      contentStyle: {
+        color: '#ffffff'
+      }
+    }
   }
-}
+})
 
 const totalNight = computed(() => {
   const startDate = new Date(orderRange.start)
@@ -322,6 +309,16 @@ const totalWeekdaysAndWeekends = computed(() => {
 const totalWeekdays = computed(() => totalWeekdaysAndWeekends.value.weekdays)
 const totalWeekends = computed(() => totalWeekdaysAndWeekends.value.weekends)
 
+const apiDateFormat = () => {
+  const pointer = new Date(orderRange.start)
+  userInfo.date = []
+  while (pointer <= new Date(orderRange.end)) {
+    let dates = changeDateFormat(pointer)
+    userInfo.date.push(dates)
+    pointer.setDate(pointer.getDate() + 1)
+  }
+}
+
 const printSelectedDate = () => {
   const dateToFormat = new Date(orderRange.start)
   const formattedDate = changeDateFormat(dateToFormat)
@@ -331,41 +328,9 @@ const printSelectedDate = () => {
   orderRange.end = lastDate
   apiDateFormat()
 }
-
-const attribute = ref({
-  highlight: {
-    start: {
-      style: {
-        backgroundColor: '#38470B'
-      },
-      contentStyle: {
-        color: '#ffffff'
-      }
-    },
-    base: {
-      style: {
-        backgroundColor: '#949C7C'
-      },
-      contentStyle: {
-        color: '#ffffff'
-      }
-    },
-    end: {
-      style: {
-        backgroundColor: '#38470B'
-      },
-      contentStyle: {
-        color: '#ffffff'
-      }
-    }
-  }
-})
-
-onMounted(() => {
-  console.log(userInfo)
-  console.log(orderRange)
-  console.log(totalNight)
-})
+const stopPropagation = (event) => {
+  event.stopPropagation()
+}
 
 const emit = defineEmits(['window-event'])
 const cancelButton = (value) => {
@@ -373,6 +338,7 @@ const cancelButton = (value) => {
 }
 const sendButton = async () => {
   try {
+    console.log(roomStatus)
     const roomId = route.params.id
     const res = orderDate.postReservation(roomId, userInfo)
     console.log(res)
@@ -385,9 +351,7 @@ const sendButton = async () => {
 
 const orderDate = useOrderStore()
 const { today } = storeToRefs(orderDate)
-const userInfo = orderDate.userInfo
-const changeDateFormat = orderDate.changeDateFormat
-const orderRange = orderDate.orderRange
+const { userInfo, changeDateFormat, orderRange, roomStatus } = useOrderStore()
 
 const props = defineProps({
   roomService: {
@@ -408,15 +372,4 @@ bedChinese.map((item) => {
     bedToChinese.value = item[1]
   }
 })
-
-Object.keys(AllRules).forEach((rule) => {
-  defineRule(rule, AllRules[rule])
-})
-
-configure({
-  generateMessage: localize({ zh_TW: zhTW }),
-  validateOnInput: true
-})
-
-setLocale('zh_TW')
 </script>

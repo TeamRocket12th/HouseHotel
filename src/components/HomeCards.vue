@@ -52,7 +52,6 @@ onMounted(() => {
   getRequest()
   console.log(data.value)
 })
-// 監聽 isLoading 值的變化，當變化時觸發 loadingEvent 函數
 watch(isLoading, (newValue) => {
   loadingEvent(newValue)
 })
