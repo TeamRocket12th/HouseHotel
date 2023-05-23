@@ -1,6 +1,6 @@
 <template>
   <div class="mb-[28px] flex flex-col justify-start text-[14px] leading-6 text-home-green-100">
-    <div class="mb-[38px] flex flex-row items-center justify-between">
+    <div class="mb-[38px] flex flex-wrap items-center justify-between">
       <p class="text-[30px] font-medium leading-[55px]">{{ roomService.name }}</p>
       <p class="flex flex-wrap whitespace-nowrap">
         <span>
@@ -38,7 +38,7 @@
       <li>・ 您需要的一切為您準備：床單和毯子，毛巾，肥皂和洗髮水，吹風機。</li>
       <li>・ 房間裡有AC，當然還有WiFi。</li>
     </ul>
-    <ul class="grid grid-cols-6 gap-x-[36px] gap-y-[25px]">
+    <ul class="grid grid-cols-5 gap-x-[36px] gap-y-[25px] md:grid-cols-6">
       <li
         v-for="(item, key) in Object.entries(roomService.amenities)"
         :key="key"

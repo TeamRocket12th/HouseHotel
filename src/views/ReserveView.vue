@@ -1,8 +1,10 @@
 <template>
-  <div class="flex h-[100vh] flex-row justify-between overflow-hidden">
+  <div class="flex flex-col justify-between lg:h-[100vh] lg:flex-row lg:overflow-hidden">
     <LoadingItem :is-loading="isLoading" />
     <RoomCarousel :src="roomInfo" @window-event="handleBooleanEvent"></RoomCarousel>
-    <div class="flex w-[58%] flex-col items-start overflow-scroll pl-[30px] pr-[128px] pt-[107px]">
+    <div
+      class="flex w-full flex-col overflow-scroll px-[40px] pt-[107px] lg:w-[58%] lg:items-start lg:pl-[30px] lg:pr-[128px]"
+    >
       <RoomInfo v-if="roomInfo.descriptionShort" :room-service="roomInfo" />
       <CalendarItem />
     </div>

@@ -36,7 +36,7 @@
       </div>
     </teleport>
   </div>
-  <div class="relative h-[100vh] w-[573px] text-home-green-100">
+  <div class="relative h-[100vh] w-full text-home-green-100 lg:w-[573px]">
     <swiper
       :slides-per-view="1"
       :modules="modules"
