@@ -6,7 +6,7 @@
       class="flex w-full flex-col overflow-scroll px-[40px] pt-[107px] lg:w-[58%] lg:items-start lg:pl-[30px] lg:pr-[128px]"
     >
       <RoomInfo v-if="roomInfo.descriptionShort" :room-service="roomInfo" />
-      <CalendarItem />
+      <CalendarItem v-if="roomBooked" :booked-date="roomBooked" />
     </div>
   </div>
   <div
@@ -34,6 +34,7 @@ import { apiGetRoomInfos } from '@/apis/client.js'
 
 const route = useRoute()
 const roomInfo = ref([])
+const roomBooked = ref([])
 const isLoading = ref(false)
 const receivedBoolean = ref('')
 
@@ -47,6 +48,7 @@ const getRoomInfos = async () => {
     const roomId = route.params.id
     const res = await apiGetRoomInfos(roomId)
     roomInfo.value = res.data.room[0]
+    roomBooked.value = res.data.booking
     isLoading.value = false
   } catch (err) {
     console.log(err)

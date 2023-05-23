@@ -27,10 +27,30 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useOrderStore } from '@/stores/order.js'
 import { useScreens } from 'vue-screen-utils'
+
+const props = defineProps({
+  bookedDate: {
+    type: Array
+  }
+})
+
+const orderDate = useOrderStore()
+const { today, orderRange } = storeToRefs(orderDate)
+const disabledDates = ref([])
+
+const changeBookedDate = () => {
+  props.bookedDate.forEach((item) => {
+    disabledDates.value.push(item.date)
+  })
+}
+
+onMounted(() => {
+  changeBookedDate()
+})
 
 const { mapCurrent } = useScreens({
   xs: '0px',
@@ -72,9 +92,6 @@ const attribute = ref({
     }
   }
 })
-
-const orderDate = useOrderStore()
-const { today, orderRange } = storeToRefs(orderDate)
 </script>
 <style>
 .vc-header {
@@ -90,7 +107,16 @@ const { today, orderRange } = storeToRefs(orderDate)
   padding-bottom: 10px;
   margin-bottom: 14px;
 }
+.vc-weekday {
+  color: rgba(56, 71, 11, 0.5);
+}
 .vc-weeks {
   padding: 0 30px;
+}
+.vc-day-content {
+  color: #38470b;
+}
+.vc-disabled {
+  text-decoration: line-through;
 }
 </style>
