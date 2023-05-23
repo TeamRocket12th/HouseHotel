@@ -13,6 +13,7 @@ export const useOrderStore = defineStore('order', () => {
     date: []
   })
   const orderRange = ref({ start: firstDay.value, end: lastDay.value })
+  const roomStatus = ref()
 
   const changeDateFormat = (orderDay) => {
     const date = new Date(orderDay)
@@ -72,6 +73,9 @@ export const useOrderStore = defineStore('order', () => {
     try {
       const res = await apiPostReservation(roomId, userInfo)
       console.log(res)
+      console.log(res.data)
+      console.log(res.data.success)
+      roomStatus.value = res.data.success
     } catch (err) {
       console.log(err)
     }
@@ -87,6 +91,7 @@ export const useOrderStore = defineStore('order', () => {
     totalPrice,
     resetOrderRange,
     postReservation,
-    changeDateFormat
+    changeDateFormat,
+    roomStatus
   }
 })

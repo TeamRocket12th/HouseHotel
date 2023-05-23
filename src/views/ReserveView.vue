@@ -46,6 +46,7 @@ const getRoomInfos = async () => {
     isLoading.value = true
     const roomId = route.params.id
     const res = await apiGetRoomInfos(roomId)
+    console.log(res)
     roomInfo.value = res.data.room[0]
     isLoading.value = false
   } catch (err) {
