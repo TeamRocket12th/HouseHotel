@@ -83,12 +83,12 @@
         v-if="orderDate.totalNight !== 0"
         class="flex flex-row items-center justify-center gap-[19px] font-normal"
       >
-        <p class="text-[36px]">$ {{ checkWeek(src.normalDayPrice, src.holidayPrice) }}</p>
+        <p class="text-[36px]">$ {{ totalPrice(src.normalDayPrice, src.holidayPrice) }}</p>
         <p class="text-[20px]">/ {{ orderDate.totalNight }}晚</p>
       </div>
       <button
         type="button"
-        class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
+        class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white hover:bg-home-green-50"
         @click="bookingEvents"
       >
         Booking now
@@ -109,7 +109,7 @@ import 'swiper/css/bundle'
 
 const router = useRouter()
 const orderDate = useOrderStore()
-const { checkWeek, apiDateFormat } = orderDate
+const { apiDateFormat, totalPrice } = orderDate
 const modules = [Pagination, Navigation, Autoplay]
 const emit = defineEmits(['window-event'])
 const bookingButton = (value) => {

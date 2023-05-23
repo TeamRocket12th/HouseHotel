@@ -40,9 +40,9 @@ export const useOrderStore = defineStore('order', () => {
     return (orderRange.value.end - orderRange.value.start) / (3600 * 24 * 1000)
   })
 
-  const checkWeek = (normalDayPrice, holidayPrice) => {
+  const checkWeek = () => {
     if (orderRange.value === null) {
-      return normalDayPrice
+      return
     }
     const dayOfWeek = new Date(orderRange.value.start).getDay()
     const total = dayOfWeek + totalNight.value
@@ -57,11 +57,15 @@ export const useOrderStore = defineStore('order', () => {
         weekdays++
       }
     }
-    return normalDayPrice * weekdays + holidayPrice * weekends
+    return [weekdays, weekends]
   }
 
   const totalPrice = (normalDayPrice, holidayPrice) => {
-    return normalDayPrice * checkWeek.value[0] + holidayPrice * checkWeek.value[1]
+    if (checkWeek() === undefined) {
+      return normalDayPrice
+    }
+    const [weekdays, weekends] = checkWeek()
+    return normalDayPrice * weekdays + holidayPrice * weekends
   }
 
   const resetOrderRange = () => {
