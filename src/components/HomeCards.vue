@@ -1,6 +1,8 @@
 <template>
-  <div class="relative flex flex-wrap object-contain">
-    <ul class="m-0 flex min-w-[550px] max-w-[825px] list-none flex-wrap object-contain p-0">
+  <div class="relative flex flex-wrap overflow-x-auto object-contain md:overflow-hidden">
+    <ul
+      class="m-0 flex min-w-[550px] max-w-full list-none object-contain p-0 md:max-w-[825px] md:flex-wrap"
+    >
       <li
         @click="clickCards(item.id)"
         v-for="item in data"
@@ -16,7 +18,9 @@
             {{ item.name }}
           </span>
         </div>
-        <img :src="item.imageUrl" alt="" class="h-[275px] w-full" />
+        <div class="max-h-full w-[275px] max-w-full">
+          <img :src="item.imageUrl" alt="" class="h-[275px] w-full object-cover" />
+        </div>
       </li>
     </ul>
   </div>
@@ -61,4 +65,4 @@ const clickCards = (id) => {
 }
 </script>
 
-<style scoped></style>
+<style></style>

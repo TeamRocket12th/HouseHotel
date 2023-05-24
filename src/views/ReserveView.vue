@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col justify-between lg:h-[100vh] lg:flex-row lg:overflow-hidden">
     <LoadingItem :is-loading="isLoading" />
-    <RoomCarousel :src="roomInfo" @window-event="handleBooleanEvent"></RoomCarousel>
+    <RoomCarousel :src="roomInfo" @window-event="reserveFormWindow"></RoomCarousel>
     <div
       class="flex w-full flex-col overflow-scroll px-[40px] pt-[107px] lg:w-[58%] lg:items-start lg:pl-[30px] lg:pr-[128px]"
     >
@@ -14,7 +14,7 @@
     v-show="receivedBoolean"
   >
     <ReserveForm
-      @window-event="handleBooleanEvent"
+      @window-event="reserveFormWindow"
       v-if="roomInfo.descriptionShort"
       :room-service="roomInfo"
     >
@@ -38,7 +38,7 @@ const roomBooked = ref([])
 const isLoading = ref(false)
 const receivedBoolean = ref('')
 
-const handleBooleanEvent = (value) => {
+const reserveFormWindow = (value) => {
   receivedBoolean.value = value
 }
 

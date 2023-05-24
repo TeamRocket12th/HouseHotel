@@ -1,7 +1,7 @@
 <template>
   <div class="flex w-full bg-transparent px-32">
     <div class="w-1/3 bg-home-green-100 px-16 py-8">
-      <VForm>
+      <VForm class="w-full">
         <div class="mb-5">
           <div class="flex items-center gap-5">
             <label for="name" class="mb-1 block text-white">姓名</label>
@@ -18,7 +18,6 @@
             v-model="userInfo.name"
           />
         </div>
-
         <div class="mb-5">
           <div class="flex items-center gap-5">
             <label for="phone" class="mb-1 block text-white">電話</label>
@@ -34,7 +33,6 @@
             v-model="userInfo.tel"
           />
         </div>
-
         <div class="mb-5">
           <label for="checkinDate" class="mb-1 block text-white">入住日期</label>
           <VDatePicker
@@ -50,7 +48,7 @@
             borderless
           >
             <template #default="{ inputEvents, togglePopover }">
-              <div class="flex w-full overflow-hidden">
+              <div class="flex w-full">
                 <input
                   :value="userInfo.date[0]"
                   v-on="inputEvents"
@@ -71,7 +69,6 @@
             </template>
           </VDatePicker>
         </div>
-
         <div class="mb-5">
           <label for="checkinDate" class="mb-1 block text-white">退房日期</label>
           <VDatePicker
@@ -87,7 +84,7 @@
             borderless
           >
             <template #default="{ togglePopover, inputEvents }">
-              <div class="flex w-full overflow-hidden">
+              <div class="flex w-full">
                 <input
                   :value="userInfo.date[userInfo.date.length - 1]"
                   v-on="inputEvents"
@@ -108,28 +105,32 @@
             </template>
           </VDatePicker>
         </div>
-      </VForm>
-      <p class="mb-2 text-sm font-normal text-home-green-50">
-        {{ totalNight + 1 }}天，{{ totalWeekdays }}晚平日與{{ totalWeekends }}晚假日
-      </p>
-      <div class="mb-[10px] h-[1px] w-full bg-home-green-50"></div>
-      <div class="mb-4 text-right text-white">
-        <p>總計</p>
-        <p class="text-[26px]">
-          ${{
-            (
-              totalWeekends * roomService.holidayPrice +
-              totalWeekdays * roomService.normalDayPrice
-            ).toLocaleString()
-          }}
+
+        <p class="mb-2 text-sm font-normal text-home-green-50">
+          {{ totalNight + 1 }}天，{{ totalWeekdays }}晚平日與{{ totalWeekends }}晚假日
         </p>
-      </div>
-      <div class="py-10">
-        <button class="mb-[18px] w-full border py-2 text-white" @click="sendButton">
-          確認送出
-        </button>
-        <p class="text-center text-xs text-white">此預約系統僅預約功能，並不會對您進行收費</p>
-      </div>
+        <div class="mb-[10px] h-[1px] w-full bg-home-green-50"></div>
+        <div class="mb-4 text-right text-white">
+          <p>總計</p>
+          <p class="text-[26px]">
+            ${{
+              (
+                totalWeekends * roomService.holidayPrice +
+                totalWeekdays * roomService.normalDayPrice
+              ).toLocaleString()
+            }}
+          </p>
+        </div>
+        <div class="py-6">
+          <button
+            class="mb-[18px] w-full border border-none py-2 font-bold text-white hover:text-yellow-500 hover:duration-100"
+            @click="sendButton"
+          >
+            確認送出
+          </button>
+          <p class="text-center text-xs text-white">此預約系統僅預約功能，並不會對您進行收費</p>
+        </div>
+      </VForm>
     </div>
 
     <div class="w-2/3 border border-home-green-100 bg-white pb-3 pl-8">
@@ -336,40 +337,19 @@ const emit = defineEmits(['window-event'])
 const cancelButton = (value) => {
   emit('window-event', value)
 }
-const sendButton = async () => {
-  try {
-    console.log(roomStatus)
-    const roomId = route.params.id
-    const res = orderDate.postReservation(roomId, userInfo)
-    console.log(res)
-    userInfo.name = ''
-    userInfo.tel = ''
-  } catch (err) {
-    console.log(err)
-  }
+const sendButton = () => {
+  const roomId = route.params.id
+  orderDate.postReservation(roomId, userInfo)
+  userInfo.name = ''
+  userInfo.tel = ''
 }
-
 const orderDate = useOrderStore()
 const { today } = storeToRefs(orderDate)
-const { userInfo, changeDateFormat, orderRange, roomStatus } = useOrderStore()
+const { userInfo, changeDateFormat, orderRange } = useOrderStore()
 
-const props = defineProps({
+defineProps({
   roomService: {
     required: true
-  }
-})
-
-const bedChinese = [
-  ['Single', '單人'],
-  ['Small Double', '小型雙人'],
-  ['Double', '雙人'],
-  ['Queen', '加大雙人']
-]
-const bedToChinese = ref('單人')
-
-bedChinese.map((item) => {
-  if (item[0] === props.roomService.descriptionShort.Bed[0]) {
-    bedToChinese.value = item[1]
   }
 })
 </script>
