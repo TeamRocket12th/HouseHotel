@@ -1,5 +1,5 @@
 <template>
-  <teleport to="#app">
+  <teleport to="#reserveView">
     <div
       class="absolute left-0 right-0 top-0 z-50 mx-auto flex h-[100vh] cursor-pointer flex-col justify-center bg-white bg-opacity-20 backdrop-blur-md"
       @click="isActive"

@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col justify-between lg:h-[100vh] lg:flex-row lg:overflow-hidden">
+  <div
+    class="flex flex-col justify-between lg:h-[100vh] lg:flex-row lg:overflow-hidden"
+    id="reserveView"
+  >
     <LoadingItem :is-loading="isLoading" />
     <RoomCarousel :src="roomInfo" @window-event="handleBooleanEvent"></RoomCarousel>
     <div

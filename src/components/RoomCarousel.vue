@@ -1,7 +1,7 @@
 <template>
   <div v-if="isFullScreen">
     <LoadingItem :isLoading="isLoading" />
-    <teleport to="#app">
+    <teleport to="#reserveView">
       <div
         class="absolute left-0 right-0 top-0 z-30 bg-black bg-opacity-50 backdrop-blur-lg"
         @click="toggleFullScreen"
