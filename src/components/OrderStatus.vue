@@ -3,7 +3,7 @@
     <div
       class="absolute left-0 right-0 top-0 z-50 mx-auto flex h-[100vh] cursor-pointer flex-col justify-center bg-white bg-opacity-20 backdrop-blur-md"
       @click="isActive"
-      v-if="pageActive"
+      v-if="statusPageActive"
     >
       <div
         class="relative mx-auto flex h-[600px] w-[1100px] cursor-default flex-col items-center gap-[41px] bg-home-green-100 text-white"
@@ -28,11 +28,11 @@
   </teleport>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useOrderStore } from '../stores/order'
 const orderStatus = useOrderStore()
-const { roomStatus } = storeToRefs(orderStatus)
+const { statusPageActive, roomStatus } = storeToRefs(orderStatus)
 
 const statusData = {
   true: {
@@ -46,18 +46,18 @@ const statusData = {
     content: '哎呀！晚了一步！您預約的日期已經被預約走了， 再看看其它房型吧'
   }
 }
-const pageActive = ref(true)
-const renderData = reactive(statusData.false)
+const renderData = ref(statusData.false)
 
 const isActive = () => {
-  pageActive.value = !pageActive.value
+  statusPageActive.value = !statusPageActive.value
 }
 
-// 這邊改成對 pinia 中的 api post 做判斷
-if (roomStatus.value === 'true') {
-  renderData.value = statusData.true
-} else {
-  renderData.value = statusData.false
-}
+watch(
+  roomStatus,
+  (newValue) => {
+    renderData.value = statusData[newValue]
+  },
+  { immediate: true }
+)
 </script>
 <style></style>
