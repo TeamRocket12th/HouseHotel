@@ -76,7 +76,6 @@ export const useOrderStore = defineStore('order', () => {
       roomStatus.value = await res.data.success
       statusPageActive.value = true
     } catch (err) {
-      console.log(err)
       roomStatus.value = false
       statusPageActive.value = true
     }

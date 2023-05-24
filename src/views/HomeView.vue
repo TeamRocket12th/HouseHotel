@@ -35,16 +35,13 @@
 import HomeCards from '@/components/HomeCards.vue'
 import HomeCarousel from '@/components/HomeCarousel.vue'
 import LoadingItem from '@/components/LoadingItem.vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 const isLoading = ref()
 
 const handleLoadingEvent = (value) => {
   isLoading.value = value
 }
-onMounted(() => {
-  console.log(isLoading.value)
-})
 </script>
 <style>
 .relative::-webkit-scrollbar {

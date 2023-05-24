@@ -30,6 +30,7 @@
 import { apiGetAllRoomInfos } from '@/apis/client.js'
 import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { alertError } from '../alert'
 
 const data = ref([])
 const router = useRouter()
@@ -47,14 +48,12 @@ const getRequest = async () => {
     data.value = res.data.items
     isLoading.value = false
     loadingEvent(false)
-    console.log(res)
   } catch (err) {
-    // console.log(err)
+    alertError(err)
   }
 }
 onMounted(() => {
   getRequest()
-  console.log(data.value)
 })
 watch(isLoading, (newValue) => {
   loadingEvent(newValue)

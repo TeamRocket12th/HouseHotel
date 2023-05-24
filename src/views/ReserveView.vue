@@ -32,6 +32,7 @@ import CalendarItem from '../components/CalendarItem.vue'
 import LoadingItem from '../components/LoadingItem.vue'
 import ReserveForm from '../components/ReserveForm.vue'
 import OrderStatus from '../components/OrderStatus.vue'
+import { alertError } from '../alert'
 
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
@@ -56,7 +57,7 @@ const getRoomInfos = async () => {
     roomBooked.value = res.data.booking
     isLoading.value = false
   } catch (err) {
-    console.log(err)
+    alertError(err)
   }
 }
 

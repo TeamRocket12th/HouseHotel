@@ -10,7 +10,6 @@
       :pagination="{ el: '.my-pagination', type: 'bullets', clickable: true }"
       :scrollbar="{ draggable: false }"
       class="h-[100vh] md:h-[135vh] xl:h-[100vh]"
-      @slideChange="onSlideChange"
     >
       <swiper-slide
         class="bg-[url('@/assets/images/house/homeCarouselFirst.jpeg')] bg-cover bg-no-repeat"
@@ -46,9 +45,6 @@ const navigation = ref({
   prevEl: '.swiper-button-prev'
 })
 const modules = [Autoplay, Pagination, Navigation, Scrollbar]
-const onSlideChange = () => {
-  // console.log(swiper.activeIndex)
-}
 </script>
 
 <style>
