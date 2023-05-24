@@ -29,12 +29,11 @@
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useOrderStore } from '../stores/order'
+const orderStatus = useOrderStore()
+const { roomStatus } = storeToRefs(orderStatus)
 
-const props = defineProps({
-  orderStatus: {
-    default: false
-  }
-})
 const statusData = {
   true: {
     img: '/src/assets/images/amenities/icon_booking_success.svg',
@@ -51,11 +50,11 @@ const pageActive = ref(true)
 const renderData = reactive(statusData.false)
 
 const isActive = () => {
-  // 這邊要改成對 props 做判斷
   pageActive.value = !pageActive.value
 }
 
-if (props.orderStatus === 'true') {
+// 這邊改成對 pinia 中的 api post 做判斷
+if (roomStatus.value === 'true') {
   renderData.value = statusData.true
 } else {
   renderData.value = statusData.false

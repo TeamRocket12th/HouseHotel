@@ -88,7 +88,7 @@
       </div>
       <button
         type="button"
-        class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white"
+        class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white hover:bg-home-green-50"
         @click="bookingEvents"
       >
         Booking now

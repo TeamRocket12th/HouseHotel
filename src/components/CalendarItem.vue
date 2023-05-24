@@ -52,7 +52,6 @@ watch(
   () => props.bookedDate,
   () => {
     changeBookedDate()
-    console.log(props.bookedDate)
   },
   { immediate: true }
 )
