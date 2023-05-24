@@ -1,5 +1,8 @@
 <template>
-  <div class="flex flex-col justify-between lg:h-[100vh] lg:flex-row lg:overflow-hidden">
+  <div
+    class="flex flex-col justify-between lg:h-[100vh] lg:flex-row lg:overflow-hidden"
+    id="reserveView"
+  >
     <LoadingItem :is-loading="isLoading" />
     <RoomCarousel :src="roomInfo" @window-event="reserveFormWindow"></RoomCarousel>
     <div
@@ -20,6 +23,7 @@
     >
     </ReserveForm>
   </div>
+  <OrderStatus />
 </template>
 <script setup>
 import RoomCarousel from '../components/RoomCarousel.vue'
@@ -27,6 +31,7 @@ import RoomInfo from '../components/RoomInfo.vue'
 import CalendarItem from '../components/CalendarItem.vue'
 import LoadingItem from '../components/LoadingItem.vue'
 import ReserveForm from '../components/ReserveForm.vue'
+import OrderStatus from '../components/OrderStatus.vue'
 
 import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
