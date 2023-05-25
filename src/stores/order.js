@@ -4,15 +4,13 @@ import { defineStore } from 'pinia'
 import { apiPostReservation } from '@/apis/client.js'
 
 export const useOrderStore = defineStore('order', () => {
-  const today = ref(new Date())
-  const firstDay = ref(new Date())
-  const lastDay = ref(new Date())
+  const today = ref(new Date(new Date().valueOf() + 1000 * 3600 * 24))
   const userInfo = reactive({
     name: '',
     tel: '',
     date: []
   })
-  const orderRange = ref({ start: firstDay.value, end: lastDay.value })
+  const orderRange = ref({ start: today.value, end: today.value })
   const roomStatus = ref()
   const statusPageActive = ref(false)
 
