@@ -77,7 +77,6 @@ export const useOrderStore = defineStore('order', () => {
       roomStatus.value = false
       statusPageActive.value = true
     }
-    console.log('roomStatus', roomStatus.value)
   }
 
   return {

@@ -6,7 +6,7 @@
       v-if="statusPageActive"
     >
       <div
-        class="relative mx-auto flex h-[600px] w-[1100px] cursor-default flex-col items-center gap-[41px] bg-home-green-100 text-white"
+        class="relative mx-auto flex cursor-default flex-col items-center gap-[41px] bg-home-green-100 px-[128px] py-[84px] text-white"
         @click.stop
       >
         <button type="button" @click="isActive" class="absolute right-[38.86px] top-[38.86px]">
