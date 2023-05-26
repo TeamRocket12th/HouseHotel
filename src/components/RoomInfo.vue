@@ -38,7 +38,7 @@
       <li>・ 您需要的一切為您準備：床單和毯子，毛巾，肥皂和洗髮水，吹風機。</li>
       <li>・ 房間裡有AC，當然還有WiFi。</li>
     </ul>
-    <ul class="grid grid-cols-5 gap-x-[36px] gap-y-[25px] md:grid-cols-6">
+    <ul class="grid grid-cols-3 gap-x-[36px] gap-y-[25px] sm:grid-cols-5 md:grid-cols-6">
       <li
         v-for="(item, key) in Object.entries(roomService.amenities)"
         :key="key"

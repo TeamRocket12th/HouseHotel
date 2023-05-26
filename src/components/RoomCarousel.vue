@@ -16,7 +16,7 @@
           >
             <swiper-slide v-for="(url, key) in props.src.imageUrl" :key="key">
               <div class="flex h-[100vh] items-center justify-center">
-                <img :src="url" alt="" class="h-[90%] w-[50%]" @click.stop />
+                <img :src="url" alt="" class="h-[90%] object-cover sm:w-[50%]" @click.stop />
               </div>
             </swiper-slide>
           </swiper>
@@ -68,7 +68,7 @@
       <button
         type="button"
         @click="backToHome"
-        class="pointer-events-auto mb-[449px] ml-[128px] mt-[87px] flex flex-row items-center gap-[10px]"
+        class="pointer-events-auto mb-[449px] ml-[50px] mt-[50px] flex flex-row items-center gap-[10px] sm:ml-[128px] sm:mt-[87px]"
       >
         <img src="../assets/images/back home.png" alt="" /> 查看其它房型
       </button>

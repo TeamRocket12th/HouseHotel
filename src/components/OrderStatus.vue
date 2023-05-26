@@ -1,18 +1,18 @@
 <template>
   <teleport to="#reserveView">
     <div
-      class="absolute left-0 right-0 top-0 z-50 mx-auto flex h-[100vh] cursor-pointer flex-col justify-center bg-white bg-opacity-20 backdrop-blur-md"
+      class="fixed left-0 right-0 top-0 z-50 flex h-[100vh] cursor-pointer flex-row justify-center bg-white bg-opacity-20 px-[30px] py-[60px] backdrop-blur-md md:px-[128px] md:py-[84px]"
       @click="isActive"
       v-if="statusPageActive"
     >
       <div
-        class="relative mx-auto flex cursor-default flex-col items-center gap-[41px] bg-home-green-100 px-[128px] py-[84px] text-white"
+        class="relative mx-auto flex flex-grow cursor-default flex-col items-center justify-center gap-[41px] bg-home-green-100 px-[20px] text-white"
         @click.stop
       >
         <button type="button" @click="isActive" class="absolute right-[38.86px] top-[38.86px]">
           <img src="@/assets/images/icons8-cancel-white.png" alt="" />
         </button>
-        <div class="mt-[125px]">
+        <div>
           <slot name="status-icon">
             <img :src="renderData.img" alt="" />
           </slot>
@@ -20,7 +20,7 @@
         <h3>
           <slot name="status-header">{{ renderData.header }}</slot>
         </h3>
-        <p class="w-[468px] text-center text-[18px] font-light">
+        <p class="text-center text-[18px] font-light md:w-[468px]">
           <slot name="status-content">{{ renderData.content }}</slot>
         </p>
       </div>
