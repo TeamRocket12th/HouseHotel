@@ -89,7 +89,7 @@
       <button
         type="button"
         class="pointer-events-auto mb-[10px] bg-home-green-100 py-[8.5px] pl-[68.3px] pr-[58.6px] text-xl text-white hover:bg-home-green-50"
-        @click="bookingEvents"
+        @click.stop="bookingEvents(true)"
       >
         Booking now
       </button>
@@ -112,9 +112,6 @@ const orderDate = useOrderStore()
 const { checkWeek, apiDateFormat } = orderDate
 const modules = [Pagination, Navigation, Autoplay]
 const emit = defineEmits(['window-event'])
-const bookingButton = (value) => {
-  emit('window-event', value)
-}
 const isLoading = ref(false)
 
 const props = defineProps({
@@ -122,9 +119,9 @@ const props = defineProps({
     required: true
   }
 })
-const bookingEvents = () => {
+const bookingEvents = (value) => {
   apiDateFormat()
-  bookingButton(true)
+  emit('window-event', value)
 }
 
 const isFullScreen = ref(false)

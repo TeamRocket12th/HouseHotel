@@ -5,12 +5,14 @@ import { apiPostReservation } from '@/apis/client.js'
 
 export const useOrderStore = defineStore('order', () => {
   const today = ref(new Date(new Date().valueOf() + 1000 * 3600 * 24))
+  const firstDay = ref(new Date())
+  const lastDay = ref(new Date())
   const userInfo = reactive({
     name: '',
     tel: '',
     date: []
   })
-  const orderRange = ref({ start: today.value, end: today.value })
+  const orderRange = ref({ start: firstDay.value, end: lastDay.value })
   const roomStatus = ref()
   const statusPageActive = ref(false)
 
@@ -51,7 +53,7 @@ export const useOrderStore = defineStore('order', () => {
 
     for (let i = dayOfWeek; i < total; i++) {
       let pointer = i % 7
-      if (pointer === 5 || pointer === 6 || pointer === 7) {
+      if (pointer === 5 || pointer === 6) {
         weekends++
       } else {
         weekdays++
@@ -74,9 +76,11 @@ export const useOrderStore = defineStore('order', () => {
       roomStatus.value = await res.data.success
       statusPageActive.value = true
     } catch (err) {
+      console.log(err)
       roomStatus.value = false
       statusPageActive.value = true
     }
+    console.log('roomStatus', roomStatus.value)
   }
 
   return {
