@@ -10,15 +10,9 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/reserve',
+      path: '/reserve/:id',
       name: 'reserve',
-      component: () => import('../views/ReserveView.vue'),
-      children: [
-        {
-          path: '/:id',
-          name: 'room'
-        }
-      ]
+      component: () => import('../views/ReserveView.vue')
     }
   ]
 })
