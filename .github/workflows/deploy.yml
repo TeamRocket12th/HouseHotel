@@ -12,7 +12,6 @@ jobs:
     env:
       VITE_API_URL: ${{ secrets.VITE_API_URL }}
       VITE_API_TOKEN: ${{ secrets.VITE_API_TOKEN }}
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -21,16 +20,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 16
-
-      - name: Install dependencies
-        run: |
-          if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
-          npm ci
-          else
-          npm i
-          fi
 
       - name: Install dependencies
         uses: bahmutov/npm-install@v1
