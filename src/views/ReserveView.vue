@@ -49,7 +49,6 @@ const receivedBoolean = ref()
 
 const reserveFormWindow = (value) => {
   receivedBoolean.value = value
-  console.log(receivedBoolean.value)
 }
 
 const getRoomInfos = async () => {

@@ -316,7 +316,6 @@ const changeBookedDate = () => {
   props.bookedDate.forEach((item) => {
     disabledDates.value.push(item.date)
   })
-  console.log(disabledDates.value)
 }
 watch(
   () => props.bookedDate,
@@ -400,12 +399,6 @@ const totalWeekdaysAndWeekends = computed(() => {
 
 const totalWeekdays = computed(() => totalWeekdaysAndWeekends.value.weekdays)
 const totalWeekends = computed(() => totalWeekdaysAndWeekends.value.weekends)
-
-watch([orderRange, userInfo], ([newOrderRange, newUserInfo], [oldOrderRange, oldUserInfo]) => {
-  console.log(oldOrderRange, oldUserInfo)
-  console.log('orderRange changed:', newOrderRange)
-  console.log('userInfo changed:', newUserInfo)
-})
 
 const stopPropagation = (event) => {
   event.stopPropagation()
