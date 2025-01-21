@@ -15,7 +15,7 @@ request.interceptors.response.use(
   },
   (error) => {
     if (error.response.status === 404) {
-      console.log('Not Found')
+      console.log('HTTP 404 Not Found')
     }
     return Promise.reject(error)
   }
